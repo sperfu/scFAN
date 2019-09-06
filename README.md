@@ -27,6 +27,11 @@ Single cell ATAC-seq data was retrieved from buenrostro et al(https://www.ncbi.n
 
 As for the three cell types related Chip-seq data, we gained GM12878 based Chip-seq data from ENCODE-DREAM Challenge dataset which used in FactorNet(https://www.sciencedirect.com/science/article/pii/S1046202318303293). We also retrieved the K562 and H1ESC Chip-seq data from Li's work(https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1642-2#Decs).We also got other feature data such as mapability data from FactorNet.
 
+Before training, you also need the copy of hg19 genome fasta data and put it into the resources folder. Because of the space limitation, the data is not included in the current folder. You can download it to your drive and unpress it in the following commands:  
+ <pre><code>$ wget http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz 
+$tar zxvf chromFa.tar.gz   
+$cat chr*.fa > hg19.fa 
+</code></pre>
 # Usage
 
 ## Training:
