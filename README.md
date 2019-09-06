@@ -29,8 +29,8 @@ As for the three cell types related Chip-seq data, we gained GM12878 based Chip-
 
 Before training, you also need the copy of hg19 genome fasta data and put it into the resources folder. Because of the space limitation, the data is not included in the current folder. You can download it to your drive and unpress it in the following commands:  
  <pre><code>$ wget http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz 
-$tar zxvf chromFa.tar.gz   
-$cat chr*.fa > hg19.fa 
+$ tar zxvf chromFa.tar.gz   
+$ cat chr*.fa > hg19.fa 
 </code></pre>
 # Usage
 
