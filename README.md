@@ -17,7 +17,11 @@ Characterizing genome-wide binding profiles of transcription factor (TF) is esse
 
 -Scipy
 
--R
+-[collections](https://docs.python.org/2.7/library/collections.html#)
+
+-[pybedtools](https://daler.github.io/pybedtools/main.html)
+
+-[pyfasta](https://pypi.org/project/pyfasta/)
 
 # Data
 
