@@ -3,7 +3,7 @@
 Script for training model.
 -k 128 -r 64 -d 256 -e 5
 Use `train.py -h` to see an auto-generated description of advanced options.
-python scBigWig_scDATA_generate_predict.py -i data/H1-hESC/scATAC_data/gz_files_SU353-LSC -k 128 -r 64 -d 256 -e 5 -moname SU353-LSC -oc multiTask_H1hESC_add_ATAC_moreTFs
+python scFAN_predict.py -i data/H1-hESC/scATAC_data/gz_files_SU353-LSC -moname SU353-LSC -oc multiTask_H1hESC_add_ATAC_moreTFs
 """
 import utils_scFAN as utils
 import numpy as np
@@ -19,10 +19,7 @@ from sklearn.metrics import average_precision_score
 from sklearn.metrics import roc_auc_score, roc_curve
 from sklearn.metrics import precision_recall_curve
 from collections import Counter
-import tensorflow as tf
-config = tf.ConfigProto(device_count={'gpu':3})
-config.gpu_options.allow_growth=True
-session = tf.Session(config=config)
+
 
 def test(model_dir,datagen_test):
     model_tfs, model_bigwig_names, features, model = utils.load_model(model_dir)
@@ -244,51 +241,16 @@ def main():
     bb3 = []
     for num_pos,positive_windows in enumerate(positive_windows_list):
         _, meta_names, datagen_bed = utils.load_bed_data_sc(genome, positive_windows, False, False, input_dir, False, big_wig_list,num_pos,chrom=None)
-        '''
-    if valid_input_dirs:
-        valid_bigwig_names, valid_bigwig_files_list = utils.load_bigwigs(valid_input_dirs)
-        assert valid_bigwig_names == bigwig_names
-    if not singleTask:
-        bigwig_files = bigwig_files_list[0]
-    if meta:
-        print 'Loading metadata features'
-        meta_names, meta_list = utils.load_meta(input_dirs)
-        if valid_input_dirs:
-            valid_meta_names, valid_meta_list = utils.load_load(valid_input_dirs)
-            assert valid_meta_names == meta_names
-    else:# meta option was not selected, pass empty metadata features to the functions
-        meta_list = [[] for bigwig_files in bigwig_files_list]
-        if valid_input_dirs:
-            valid_meta_list = [[] for bigwig_files in valid_bigwig_files_list]
-    
-    print 'Making features'
-    if singleTask:
-        if not valid_input_dirs: #validation directories not used, must pass placeholder values
-            valid_chip_bed_list = None
-            valid_nonnegative_regions_bed_list = None
-            valid_bigwig_files_list = None
-            valid_meta_list = None 
-        datagen_train, datagen_valid = \
-            utils.make_features_singleTask(chip_bed_list,
-            nonnegative_regions_bed_list, bigwig_files_list, bigwig_names,
-            meta_list, gencode, genome, epochs, negatives, valid_chroms, test_chroms, 
-            valid_chip_bed_list, valid_nonnegative_regions_bed_list, 
-            valid_bigwig_files_list, valid_meta_list)
-    else:
-        datagen_train, datagen_valid,datagen_test,data_test = \
-            utils.make_features_multiTask(positive_windows, y_positive,
-            nonnegative_regions_bed, bigwig_files, bigwig_names,
-            genome, epochs, valid_chroms, test_chroms)
-        '''
+        
         #pdb.set_trace()
         
         print "%d sample...in %d "%(num_pos,len(positive_windows_list))
         model_predicts,model_tfs = test(output_dir,datagen_bed)
         try:
-            os.stat('%s/deepATAC_fea_scbw_moreTFs_only_sc_2x'%(input_dirs[0]))
+            os.stat('%s/deepATAC_fea_scbw_moreTFs_weight'%(input_dirs[0]))
         except:
-            os.mkdir('%s/deepATAC_fea_scbw_moreTFs_only_sc_2x'%(input_dirs[0]))
-        np.save('%s/deepATAC_fea_scbw_moreTFs_only_sc_2x/%s_data'%(input_dirs[0],str(num_pos)),model_predicts)
+            os.mkdir('%s/deepATAC_fea_scbw_moreTFs_weight'%(input_dirs[0]))
+        np.save('%s/deepATAC_fea_scbw_moreTFs_weight/%s_data'%(input_dirs[0],str(num_pos)),model_predicts)
         #model_predicts_list.append(model_predicts) 
         for index in range(model_predicts.shape[0]):
             #test_predict_all_TFs = test_predict_all_TFs + [model_tfs[item] for item in np.argsort(model_predicts[index])[::-1][:1]]
@@ -309,35 +271,8 @@ def main():
     bb3 = np.array(bb3)
     #np.save('%s/count_motif_dis_thres_1_%s'%(input_dirs[0],motif_name),bb)
     #np.save('%s/count_motif_dis_thres_5_%s'%(input_dirs[0],motif_name),bb2)
-    np.save('%s/count_motif_scbw_new_dis_thres_2_%s_moreTFs_only_sc_2x'%(input_dirs[0],motif_name),bb3)
-    '''
-    pdb.set_trace()
-    bb = []
-    for model_predicts in model_predicts_list:
-        for index in range(model_predicts.shape[0]):
-            test_predict_all_TFs = test_predict_all_TFs + [model_tfs[item] for item in np.argsort(model_predicts[index])[::-1][:2]]
-        #a.append(Counter(test_predict_all_TFs).most_common(12))
-        bb.append([Counter(test_predict_all_TFs)[item]/float(sum(Counter(test_predict_all_TFs).values())) for item in model_tfs])
-    bb = np.array(bb)
-    np.save('count_motif_dis',bb)
-    pdb.set_trace()
-    test_label_all = []
-    for _,item in enumerate(data_test):
-        test_label_all.append(item[-1])
-    test_label_all = np.array(test_label_all)
-    atac = []
-    atacpr = []
-    for index in range(len(model_tfs)):
-        truth = test_label_all[:,index]
-        pred = model_predicts[:,index]
-        atac.append(roc_auc_score(truth, pred))
-        atacpr.append(average_precision_score(truth, pred))
-
-    print "Average AUC ROC (ATAC)", np.mean(atac)
-    print "Average AUPR ROC (ATAC)", np.mean(atacpr)
-
-    return datagen_train,datagen_valid,datagen_test
-    '''
+    np.save('%s/count_motif_scbw_new_dis_thres_2_%s_moreTFs_weight'%(input_dirs[0],motif_name),bb3)
+  
 if __name__ == '__main__':
     """
     See module-level docstring for a description of the script.
