@@ -73,7 +73,7 @@ class DataIterator(Iterator):
                 sample_bigwig = np.array(bigwig.values(chrom, start, stop))
                 bigwig.close()
                 sample_bigwig[np.isnan(sample_bigwig)] = 0
-                batch_X_bigwig[i, :, k] = 2*sample_bigwig
+                batch_X_bigwig[i, :, k] = sample_bigwig
                 if k == 2:
                     #batch_X_bigwig[i, :, k-1] = 0.5*batch_X_bigwig[i, :, k-1]+0.5*batch_X_bigwig[i, :, k]
                     batch_X_bigwig[i, :, k-1] = (1-0)*batch_X_bigwig[i, :, k-1]+0.5*batch_X_bigwig[i, :, k]
