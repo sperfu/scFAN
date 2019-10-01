@@ -45,4 +45,5 @@ because all the bed files and bigwig files are the same for each single cell. Th
 Also, you need to change the content of second line in `bigwig.txt` file into the corresponding bigwig files(in this case:`K562_rep2.bw`).  
 Considering the file size in the repository. We uploaded all the files in google drive, you can get the data from [here](https://drive.google.com/drive/folders/1PD9GDQEsB-KZnLxPW_bbtBy7KILNdUAn?usp=sharing).  
 
+If you have any questions, please feel free to contact me.
 Email: laiyif@uci.edu
