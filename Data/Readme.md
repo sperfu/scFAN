@@ -26,7 +26,7 @@ Correspondingly, we also have three pre-trained models in the model folder. Due 
 
 ## Prediction data
 In the prediction phase, we utilized over 2000 cells retrieved from public datasets, which is shown in the main Readme.md and in the paper. All the single cell data we retrieved covered about 21 subtypes, so we collect each subtype data in one folder and predict them once for all.  
-The single cell dataset is predicted based on the pre-trained model, so you need to put the single cell data into corresponding folder, we provided the all the single cell peak files in the link, you can download them and unzip them into the corresponding folder:  
+The single cell dataset is predicted based on the pre-trained model, so you need to put the single cell data into corresponding folder, we provided the all the single cell peak files in the link, you can download them and unzip them into the corresponding folder(GM12878):  
 <pre><code>$ cd GM12878
 $ tar zxvf cell_name.tar.gz
 </code></pre>   
