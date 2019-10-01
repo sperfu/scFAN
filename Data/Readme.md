@@ -42,7 +42,7 @@ because all the bed files and bigwig files are the same for each single cell. Th
 <pre><code>$ ln -s ../K562_rep2.bw K562_rep2.bw  
 </code></pre>  
 
-
+Also, you need to change the content of second line in `bigwig.txt` file into the corresponding bigwig files(in this case:`K562_rep2.bw`).  
 Considering the file size in the repository. We uploaded all the files in google drive, please contact us for the data link.
 
 Email: laiyif@uci.edu
