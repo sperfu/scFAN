@@ -34,11 +34,11 @@ Also, to save the disk space, we also recommend you to create a symbolic link to
 <pre><code>$ ln -s ../../SRR891269.forward.1x2.bw SRR891269.forward.1x2.bw
 $ ln -s ../../wgEncodeDukeMapabilityUniqueness35bp.bigWig wgEncodeDukeMapabilityUniqueness35bp.bigWig
 </code></pre>  
-For the record, due to the size of the disk, for each single cell data, I only uploaded all the needed files into GM12878 subfolder, you can simply copy those tar.gz files into either K562 or H1ESC subfolders, for example:  
+For the record, due to the size of the disk, for each single cell data, I only uploaded all the needed files into GM12878 subfolder, you can simply copy those tar.gz files into either K562 or H1ESC subfolders, for example(K562):  
 <pre><code>$ cp *tar.gz ../K562/ && tar zxvf *tar.gz
 $ cd gz_files_BJ
 </code></pre>   
-because all the bed files and bigwig files are the same for each single cell. The only place you need to change is the link and the bigwig.txt file. Taking BJ cells from K562 subfolder as an example:  
+because all the bed files and bigwig files are the same for each single cell. The only places you need to change are the link and the bigwig.txt file. Taking BJ cells from K562 subfolder as an example:  
 <pre><code>$ ln -s ../K562_rep2.bw K562_rep2.bw  
 </code></pre>  
 
