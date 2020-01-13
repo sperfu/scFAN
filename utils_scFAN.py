@@ -597,7 +597,7 @@ def load_bigwigs_sc(input_dirs,num_pos,bigwig_lists):
             ### changed here for single cell
             input_bigwig_files = [input_dir + '/' + i for i in input_bigwig_info[:,0][:-1]] ## previous_version
             #input_bigwig_files = [input_dir + '/' + i for i in input_bigwig_info[:,0]]
-            input_bigwig_files.append(input_dir+'/big_wig_list/'+bigwig_lists[num_pos])
+            input_bigwig_files.append('/data2/fly/scFAN_data/new_folder_cisTopics/'+bigwig_lists[num_pos])
             print input_bigwig_files
             #pdb.set_trace()
         if bigwig_names is None:
@@ -1032,7 +1032,7 @@ def load_bed_data_sc(genome, positive_windows, use_meta, use_gencode, input_dir,
         data_bed = [(window.chrom, window.start, window.stop, shift, bigwig_files, meta)
                     for window in bed_filtered]
     #from data_iter import DataIterator
-    from data_iter_deepATAC import DataIterator
+    from data_iter_scFAN import DataIterator
     #pdb.set_trace()
     #tmpp = bed_filtered.saveas('/data1/fly/FactorNet/draw_plot/heatmap_plot/merge_heatmap/H1_bed/%d_bed.bed'%(num_pos))
     bigwig_rc_order = get_bigwig_rc_order(bigwig_names)
