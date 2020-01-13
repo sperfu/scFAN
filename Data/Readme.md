@@ -31,19 +31,16 @@ The single cell dataset is predicted based on the pre-trained model, so you need
 $ tar zxvf cell_name.tar.gz
 </code></pre>   
 Also, to save the disk space, we also recommend you to create a symbolic link to all the bigwig files, as shown below:
-<pre><code>$ ln -s ../../SRR891269.forward.1x2.bw SRR891269.forward.1x2.bw
-$ ln -s ../../wgEncodeDukeMapabilityUniqueness35bp.bigWig wgEncodeDukeMapabilityUniqueness35bp.bigWig
+<pre><code>$ ln -s ../../wgEncodeDukeMapabilityUniqueness35bp.bigWig wgEncodeDukeMapabilityUniqueness35bp.bigWig
 </code></pre>  
-For the record, due to the size of the disk, for each single cell data, I only uploaded all the needed files into GM12878 subfolder, you can simply copy those tar.gz files into either K562 or H1ESC subfolders, for example(K562):  
+For the record, due to the size of the disk, for each single cell data, I only uploaded all the needed bed files into GM12878 subfolder, you can simply copy those tar.gz files into either K562 or H1ESC subfolders, for example(K562):  
 <pre><code>$ cp *tar.gz ../K562/ && tar zxvf *tar.gz
 $ cd gz_files_BJ
 </code></pre>   
-because all the bed files and bigwig files are the same for each single cell. The only places you need to change are the link and the bigwig.txt file. Taking BJ cells from K562 subfolder as an example:  
-<pre><code>$ ln -s ../K562_rep2.bw K562_rep2.bw  
-</code></pre>  
+because all the bed files and bigwig files are the same for each single cell. The only places you need to change are the link. All the single cell bigwig files provided here were aggregated version, I have uploaded all the files in the google drive, you can download from there.   
+ 
 
-Also, you need to change the content of second line in `bigwig.txt` file into the corresponding bigwig files(in this case:`K562_rep2.bw`).  
 Considering the file size in the repository. We uploaded all the files in google drive, you can get the data from [here](https://drive.google.com/drive/folders/1PD9GDQEsB-KZnLxPW_bbtBy7KILNdUAn?usp=sharing).  
 
 If you have any questions, please feel free to contact me.
-Email: laiyif@uci.edu
+Email: laiyif@uci.edu or fulaiyi@gmail.com
