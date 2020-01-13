@@ -230,8 +230,12 @@ def main():
     print 'Loading bigWig data'
     bigwig_names, bigwig_files_list = utils.load_bigwigs(input_dirs)
     num_bigwigs = len(bigwig_names)
+    '''
     bg_list_file = open('%s/bigwig_list.txt'%(input_dirs[0]),'r').readlines()
     big_wig_list = [item.strip() for item in bg_list_file]
+    '''
+    chip_name_file = np.loadtxt(input_dir + '/chip.txt',dtype=str)
+    big_wig_list = [item.split('_')[0]+'.bw' for item in chip_name_file[:,0]]
     model_predicts_list = []
     test_predict_all_TFs = []
     bb = []
