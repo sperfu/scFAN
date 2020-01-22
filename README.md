@@ -53,5 +53,5 @@ $ cat chr*.fa > hg19.fa
 \-- `-moname`: motif name. eg. BJ  
 \-- `-oc`: model saved path. e.g. model_out  
 
-## Acknowlegement
-We referenced some of the codes from our lab's previous work [FactorNet](https://www.sciencedirect.com/science/article/pii/S1046202318303293) in the data preprocessing part and data generating structure, so we would like to thank for Daniel Quang's work and contribution.
+## Acknowledgement
+We referenced some of the codes from our lab's previous work [FactorNet](https://www.sciencedirect.com/science/article/pii/S1046202318303293) (here is the link to its [codes])(https://github.com/uci-cbcl/FactorNet) in the data preprocessing part and data generating structure, so we would like to thank for Daniel Quang's work and contribution. 
