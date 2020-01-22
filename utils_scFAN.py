@@ -266,103 +266,6 @@ def negative_shuffle_wrapper(args, include_bed, num_copies, noOverlapping):
                                                 seed=randomseed)
     return negative_windows
 
-
-def make_features_singleTask(chip_bed_list, nonnegative_regions_bed_list, bigwig_files_list, bigwig_names,
-                             meta_list, gencode, genome, epochs, negatives, valid_chroms, test_chroms, 
-                             valid_chip_bed_list, valid_nonnegative_regions_bed_list,
-                             valid_bigwig_files_list, valid_meta_list):
-    num_cells = len(chip_bed_list)
-    chroms, chroms_sizes, genome_bed = get_genome_bed()
-    train_chroms = chroms
-    for chrom in valid_chroms + test_chroms:
-        train_chroms.remove(chrom)
-    genome_bed_train, genome_bed_valid, genome_bed_test = \
-        [subset_chroms(chroms_set, genome_bed) for chroms_set in
-         (train_chroms, valid_chroms, test_chroms)]
-
-    print 'Splitting ChIP peaks into training, validation, and testing BEDs'
-    chip_bed_split_list = parmap.map(valid_test_split_wrapper, chip_bed_list, valid_chroms, test_chroms)
-    chip_bed_train_list, chip_bed_valid_list, chip_bed_test_list = zip(*chip_bed_split_list)
-
-    if valid_chip_bed_list: # the user specified a validation directory, must adjust validation data
-        valid_chip_bed_split_list = parmap.map(valid_test_split_wrapper, valid_chip_bed_list, valid_chroms, test_chroms)
-        _, chip_bed_valid_list, _ = zip(*valid_chip_bed_split_list)
-    else:
-        valid_nonnegative_regions_bed_list = nonnegative_regions_bed_list
-        valid_bigwig_files_list = bigwig_files_list
-        valid_meta_list = meta_list
-
-    positive_label = [True]
-    #Train
-    print 'Extracting data from positive training BEDs'
-    positive_data_train_list = parmap.map(extract_data_from_bed,
-                                          zip(chip_bed_train_list, bigwig_files_list, meta_list),
-                                          True, positive_label, gencode)
-    positive_data_train = list(itertools.chain(*positive_data_train_list))
-
-    #Validation
-    print 'Extracting data from positive validation BEDs'
-    positive_data_valid_list = parmap.map(extract_data_from_bed,
-                                          zip(chip_bed_valid_list, valid_bigwig_files_list, valid_meta_list),
-                                          False, positive_label, gencode)
-    positive_data_valid = list(itertools.chain(*positive_data_valid_list))
-
-    print 'Shuffling positive training windows in negative regions'
-    train_noOverlap = True
-    train_randomseeds = np.random.randint(-214783648, 2147483647, num_cells)
-    positive_windows_train_list = parmap.map(data_to_bed, positive_data_train_list)
-    negative_windows_train_list = parmap.map(negative_shuffle_wrapper,
-                                             zip(positive_windows_train_list, nonnegative_regions_bed_list,
-                                                 bigwig_files_list, train_randomseeds),
-                                             genome_bed_train, negatives*epochs, train_noOverlap)
-
-    print 'Shuffling positive validation windows in negative regions'
-    valid_randomseeds = np.random.randint(-214783648, 2147483647, num_cells)
-    positive_windows_valid_list = parmap.map(data_to_bed, positive_data_valid_list)
-    negative_windows_valid_list = parmap.map(negative_shuffle_wrapper,
-                                             zip(positive_windows_valid_list, nonnegative_regions_bed_list,
-                                                 bigwig_files_list, valid_randomseeds),
-                                             genome_bed_valid, negatives, True)
-
-    negative_label = [False]
-    #Train
-    print 'Extracting data from negative training BEDs'
-    negative_data_train_list = parmap.map(extract_data_from_bed,
-                                          zip(negative_windows_train_list, bigwig_files_list, meta_list),
-                                          False, negative_label, gencode)
-    negative_data_train = list(itertools.chain(*negative_data_train_list))
-
-    #Validation
-    print 'Extracting data from negative validation BEDs'
-    negative_data_valid_list = parmap.map(extract_data_from_bed,
-                                          zip(negative_windows_valid_list, valid_bigwig_files_list, valid_meta_list),
-                                          False, negative_label, gencode)
-    negative_data_valid = list(itertools.chain(*negative_data_valid_list))
-
-    data_valid = negative_data_valid + positive_data_valid
-
-    print 'Shuffling training data'
-    num_negatives_per_epoch = negatives*len(positive_data_train)
-    np.random.shuffle(negative_data_train)
-    data_train = []
-    for i in xrange(epochs):
-        epoch_data = []
-        epoch_data.extend(positive_data_train)
-        epoch_data.extend(negative_data_train[i*num_negatives_per_epoch:(i+1)*num_negatives_per_epoch])
-        np.random.shuffle(epoch_data)
-        data_train.extend(epoch_data)
-
-    print 'Generating data iterators'
-    from data_iter import DataIterator
-    bigwig_rc_order = get_bigwig_rc_order(bigwig_names)
-    datagen_train = DataIterator(data_train, genome, batch_size, L, bigwig_rc_order)
-    datagen_valid = DataIterator(data_valid, genome, batch_size, L, bigwig_rc_order, shuffle=True)
-
-    print len(datagen_train), 'training samples'
-    print len(datagen_valid), 'validation samples'
-    return datagen_train, datagen_valid
-
-
 def get_onehot_chrom(chrom): 
     fasta = pyfasta.Fasta(genome_fasta_file)
     chr_str = str(fasta[chrom]).upper()
@@ -476,43 +379,6 @@ def load_chip_multiTask_multiple(input_dir):
         positive_windows_list.append(positive_windows)
     return tfs, positive_windows_list, y_positive, nonnegative_regions_bed
 
-def load_chip_multiTask(input_dir):
-    tfs, chip_beds, merged_chip_bed = get_chip_beds(input_dir)
-    print 'Removing peaks outside of X chromosome and autosomes'
-    chroms, chroms_sizes, genome_bed = get_genome_bed()
-    merged_chip_bed = merged_chip_bed.intersect(genome_bed, u=True, sorted=True)
-
-    print 'Windowing genome'
-    genome_windows = BedTool().window_maker(g=genome_sizes_file, w=genome_window_size,
-                                            s=genome_window_step)
-
-    pdb.set_trace()
-    print 'Extracting windows that overlap at least one ChIP interval'
-    positive_windows = genome_windows.intersect(merged_chip_bed, u=True, f=1.0*(genome_window_size/2+1)/genome_window_size, sorted=True)
-
-    # Exclude all windows that overlap a blacklisted region
-    blacklist = make_blacklist()
-    
-    print 'Removing windows that overlap a blacklisted region'
-    positive_windows = positive_windows.intersect(blacklist, wa=True, v=True, sorted=True)
-
-    num_positive_windows = positive_windows.count()
-    # Binary binding target matrix of all positive windows
-    print 'Number of positive windows:', num_positive_windows
-    print 'Number of targets:', len(tfs)
-    #pdb.set_trace()
-    # Generate targets
-    print 'Generating target matrix of all positive windows'
-    y_positive = parmap.map(intersect_count, chip_beds, positive_windows.fn)
-    y_positive = np.array(y_positive, dtype=bool).T
-    print 'Positive matrix sparsity', (~y_positive).sum()*1.0/np.prod(y_positive.shape)
-    merged_chip_slop_bed = merged_chip_bed.slop(g=genome_sizes_file, b=genome_window_size)
-    # Later we want to gather negative windows from the genome that do not overlap
-    # with a blacklisted or ChIP region
-    nonnegative_regions_bed = merged_chip_slop_bed.cat(blacklist)
-    return tfs, positive_windows, y_positive, nonnegative_regions_bed
-
-
 def nonnegative_wrapper(a, bl_file):
     bl = BedTool(bl_file)
     a_slop = a.slop(g=genome_sizes_file, b=genome_window_size)
@@ -543,20 +409,6 @@ def get_chip_bed(input_dir, tf, bl_file):
     else:
         relaxed_bed = chip_bed
     return chip_bed, relaxed_bed
-
-
-def load_chip_singleTask(input_dirs, tf):
-    blacklist = make_blacklist()
-
-    print 'Loading and sorting BED file(s)'
-    chip_bed_list, relaxed_bed_list = zip(*parmap.map(get_chip_bed, input_dirs, tf, blacklist.fn))
-
-    # Later we want to gather negative windows from the genome that do not overlap
-    # with a blacklisted or ChIP region
-    print 'Generating regions to exclude for negative windows'
-    nonnegative_regions_bed_file_list = parmap.map(nonnegative_wrapper, relaxed_bed_list, blacklist.fn)
-    nonnegative_regions_bed_list = [BedTool(i) for i in nonnegative_regions_bed_file_list]
-    return chip_bed_list, nonnegative_regions_bed_list
 
 
 def load_meta(input_dirs):
