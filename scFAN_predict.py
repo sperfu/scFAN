@@ -173,13 +173,7 @@ def main():
 
     if tf:
         print 'Single-task training:', tf
-        singleTask = True
-        if meta:
-            print 'Including metadata features'
-            features.append('meta')
-        if gencode:
-            print 'Including genome annotations'
-            features.append('gencode')
+        
     else:
         print 'Multi-task training'
         singleTask = False
@@ -194,7 +188,7 @@ def main():
         clobber = False
         output_dir = args.outputdir
 
-    try:  # adapted from dreme.py by T. Bailey
+    try:  # adapted from dreme.py and train.py by T. Bailey & Daniel Quang
         os.makedirs(output_dir)
     except OSError as exc:
         if exc.errno == errno.EEXIST:
@@ -213,11 +207,6 @@ def main():
         assert singleTask # This option only works for single-task training
     print 'Loading ChIP labels'
     if singleTask:
-        chip_bed_list, nonnegative_regions_bed_list = \
-            utils.load_chip_singleTask(input_dirs, tf)
-        if valid_input_dirs:
-            valid_chip_bed_list, valid_nonnegative_regions_bed_list = \
-                utils.load_chip_singleTask(valid_input_dirs, tf)
         num_tfs = 1
     else:
         assert len(input_dirs) == 1 # multi-task training only supports one cell line
