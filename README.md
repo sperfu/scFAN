@@ -52,3 +52,6 @@ $ cat chr*.fa > hg19.fa
 \-- `-i`: input single cell data folder. e.g. Data/GM12787/scATAC-seq/gz_files_BJ  
 \-- `-moname`: motif name. eg. BJ  
 \-- `-oc`: model saved path. e.g. model_out  
+
+## Acknowlegement
+We referenced some of the codes from our lab's previous work FactorNet in the data preprocessing part and data generating structure, so we would like to thank for Daniel Quang's work and contribution.
