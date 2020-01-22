@@ -487,7 +487,7 @@ def get_output(input_layer, hidden_layers):
         output = hidden_layer(output)
     return output
 
-def ATACPeak(out,num_recurrent,num_bws):
+def scFANet(out,num_recurrent,num_bws):
     from keras.models import Sequential
     from keras.layers import Flatten, Dense, Dropout, Merge
     from keras.layers import Reshape
@@ -537,31 +537,7 @@ def ATACPeak(out,num_recurrent,num_bws):
         ]
     else:
         pdb.set_trace()
-    '''
-    model = Sequential()
-    model.add(Conv2D(nkernels[0], kernel_size=(1,8), strides=(1,1), padding='same', input_shape=in_size, kernel_regularizer=regularizers.l2(l2_lam)))
-    model.add(BatchNormalization())
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(1,4), strides=(1,4)))
-    model.add(Dropout(0.2))
 
-    model.add(Conv2D(nkernels[1], kernel_size=(1,8), strides=(1,1), padding='same', kernel_regularizer=regularizers.l2(l2_lam)))
-    model.add(BatchNormalization())
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(1,4), strides=(1,4)))
-    model.add(Dropout(0.2))
-
-    model.add(Conv2D(nkernels[1], kernel_size=(1,8), strides=(1,1), padding='same', kernel_regularizer=regularizers.l2(l2_lam)))
-    model.add(BatchNormalization())
-    model.add(Activation('relu'))
-    model.add(Dropout(0.5))
-
-    model.add(Flatten())
-    model.add(Dense(919, kernel_regularizer=regularizers.l1(l1_lam)))
-    model.add(Activation('relu'))
-    model.add(Dense(out, kernel_regularizer=regularizers.l1(l1_lam)))
-    model.add(Activation('sigmoid'))
-    '''
     forward_output = get_output(forward_input, hidden_layers)     
     #reverse_output = get_output(reverse_input, hidden_layers)
     #output = merge([forward_output, reverse_output], mode='ave')
@@ -637,74 +613,6 @@ def make_model(num_tfs, num_bws, num_motifs, num_recurrent, num_dense, dropout_r
     return model
 
 
-def make_meta_model(num_tfs, num_bws, num_meta, num_motifs, num_recurrent, num_dense, dropout_rate):
-    from keras import backend as K
-    from keras.models import Model
-    from keras.layers import Dense, Dropout, Activation, Flatten, Layer, merge, Input
-    from keras.layers.convolutional import Convolution1D, MaxPooling1D
-    from keras.layers.pooling import GlobalMaxPooling1D
-    from keras.layers.recurrent import LSTM
-    from keras.layers.wrappers import Bidirectional, TimeDistributed
-    forward_input = Input(shape=(L, 4 + num_bws,))
-    reverse_input = Input(shape=(L, 4 + num_bws,))
-    meta_input = Input(shape=(num_meta,))
-    if num_recurrent < 0:
-        hidden_layers = [
-            Convolution1D(input_dim=4 + num_bws, nb_filter=num_motifs,
-                          filter_length=w, border_mode='valid', activation='relu',
-                          subsample_length=1),
-            Dropout(0.1),
-            TimeDistributed(Dense(num_motifs, activation='relu')),
-            GlobalMaxPooling1D(),
-            Dropout(dropout_rate),
-            Dense(num_dense, activation='relu'),
-        ]
-    elif num_recurrent == 0:
-        hidden_layers = [
-            Convolution1D(input_dim=4 + num_bws, nb_filter=num_motifs,
-                          filter_length=w, border_mode='valid', activation='relu',
-                          subsample_length=1),
-            Dropout(0.1),
-            TimeDistributed(Dense(num_motifs, activation='relu')),
-            MaxPooling1D(pool_length=w2, stride=w2),
-            Dropout(dropout_rate),
-            Flatten(),
-            Dense(num_dense, activation='relu'),
-        ]
-    else:
-        hidden_layers = [
-            Convolution1D(input_dim=4 + num_bws, nb_filter=num_motifs,
-                          filter_length=w, border_mode='valid', activation='relu',
-                          subsample_length=1),
-            Dropout(0.1),
-            TimeDistributed(Dense(num_motifs, activation='relu')),
-            MaxPooling1D(pool_length=w2, stride=w2),
-            Bidirectional(LSTM(num_recurrent, dropout_W=0.1, dropout_U=0.1, return_sequences=True)),
-            Dropout(dropout_rate),
-            Flatten(),
-            Dense(num_dense, activation='relu'),
-        ]
-    forward_dense = get_output(forward_input, hidden_layers)     
-    reverse_dense = get_output(reverse_input, hidden_layers)
-    forward_dense = merge([forward_dense, meta_input], mode='concat')
-    reverse_dense = merge([reverse_dense, meta_input], mode='concat')
-    dropout2_layer = Dropout(0.1)
-    forward_dropout2 = dropout2_layer(forward_dense)
-    reverse_dropout2 = dropout2_layer(reverse_dense)
-    dense2_layer = Dense(num_dense, activation='relu')
-    forward_dense2 = dense2_layer(forward_dropout2)
-    reverse_dense2 = dense2_layer(reverse_dropout2)
-    dropout3_layer = Dropout(dropout_rate)
-    forward_dropout3 = dropout3_layer(forward_dense2)
-    reverse_dropout3 = dropout3_layer(reverse_dense2)
-    sigmoid_layer =  Dense(num_tfs, activation='sigmoid')
-    forward_output = sigmoid_layer(forward_dropout3)
-    reverse_output = sigmoid_layer(reverse_dropout3)
-    output = merge([forward_output, reverse_output], mode='ave')
-    model = Model(input=[forward_input, reverse_input, meta_input], output=output)
-
-    return model
-
 
 def load_model(modeldir):
     tfs_file = modeldir + '/chip.txt'
@@ -735,118 +643,6 @@ def load_model(modeldir):
     model = model_from_json(model_json)
     model.load_weights(modeldir + '/best_model.hdf5')
     return tfs, bigwig_names, features, model
-
-
-def load_motif_db(meme_filename):
-    f = open(meme_filename, 'r')
-    lines = f.readlines()    
-    f.close()
-    num_lines = len(lines)
-    i = 0
-    motifs_dict = {}
-    while i < num_lines:
-        line = lines[i]
-        if 'MOTIF' in line:
-            motif_name = line.split()[-1].strip().upper()
-            while 'letter-probability matrix' not in line:
-                i += 1
-                line = lines[i]
-            motif_info = lines[i]
-            motif_info = motif_info.split()
-            w_index = motif_info.index('w=') + 1
-            w = int(motif_info[w_index])
-            motif = np.zeros((w,4))
-            i += 1
-            line = lines[i]
-            while len(line.strip()) == 0:
-                i += 1
-                line = lines[i]
-            for j in xrange(w):
-                motif[j,:] = np.array(lines[i].split(), dtype=float)
-                i += 1
-            motifs_dict[motif_name] = motif
-        i += 1
-    return motifs_dict
-
-
-def inject_pwm(model, pwm):
-    layer_names = [l.name for l in model.layers]
-    conv_layer_index = layer_names.index('convolution1d_1')
-    conv_layer = model.layers[conv_layer_index]
-    w = conv_layer.filter_length
-    pwm_length = len(pwm)
-    pwm_start = w/2 - pwm_length/2
-    pwm_stop = pwm_start + pwm_length
-    pwm_r = pwm[::-1, ::-1]
-
-    conv_weights = conv_layer.get_weights()
-
-    conv_weights[0][:, :, :, 0] = 0
-    conv_weights[0][pwm_start:pwm_stop, 0, 0:4, 0] = pwm[::-1]
-    conv_weights[1][0] = 0
-    conv_weights[0][:, :, :, 1] = 0
-    conv_weights[0][pwm_start:pwm_stop, 0, 0:4, 1] = pwm_r[::-1]
-    conv_weights[1][1] = 0
-
-    conv_layer.set_weights(conv_weights)
-
-
-def load_beddata(genome, bed_file, use_meta, use_gencode, input_dir, is_sorted, chrom=None):
-    bed = BedTool(bed_file)
-    if not is_sorted:
-        print 'Sorting BED file'
-        bed = bed.sort()
-        is_sorted = True
-    blacklist = make_blacklist()
-    print 'Determining which windows are valid'
-    bed_intersect_blacklist_count = bed.intersect(blacklist, wa=True, c=True, sorted=is_sorted)
-    if chrom:
-        nonblacklist_bools = np.array([i.chrom==chrom and i.count==0 for i in bed_intersect_blacklist_count])
-    else:
-        nonblacklist_bools = np.array([i.count==0 for i in bed_intersect_blacklist_count])
-    print 'Filtering away blacklisted windows'
-    bed_filtered = bed.intersect(blacklist, wa=True, v=True, sorted=is_sorted)
-    if chrom:
-        print 'Filtering away windows not in chromosome:', chrom
-        bed_filtered = subset_chroms([chrom], bed_filtered)
-    print 'Generating test data iterator'
-    bigwig_names, bigwig_files_list = load_bigwigs([input_dir])
-    bigwig_files = bigwig_files_list[0]
-    if use_meta:
-        meta_names, meta_list = load_meta([input_dir])
-        meta = meta_list[0]
-    else:
-        meta = []
-        meta_names = None
-    
-    shift = 0
-    
-    if use_gencode:
-        cpg_bed = BedTool('resources/cpgisland.bed.gz')
-        cds_bed = BedTool('resources/wgEncodeGencodeBasicV19.cds.merged.bed.gz')
-        intron_bed = BedTool('resources/wgEncodeGencodeBasicV19.intron.merged.bed.gz')
-        promoter_bed = BedTool('resources/wgEncodeGencodeBasicV19.promoter.merged.bed.gz')
-        utr5_bed = BedTool('resources/wgEncodeGencodeBasicV19.utr5.merged.bed.gz')
-        utr3_bed = BedTool('resources/wgEncodeGencodeBasicV19.utr3.merged.bed.gz')
-
-        peaks_cpg_bedgraph = bed_filtered.intersect(cpg_bed, wa=True, c=True)
-        peaks_cds_bedgraph = bed_filtered.intersect(cds_bed, wa=True, c=True)
-        peaks_intron_bedgraph = bed_filtered.intersect(intron_bed, wa=True, c=True)
-        peaks_promoter_bedgraph = bed_filtered.intersect(promoter_bed, wa=True, c=True)
-        peaks_utr5_bedgraph = bed_filtered.intersect(utr5_bed, wa=True, c=True)
-        peaks_utr3_bedgraph = bed_filtered.intersect(utr3_bed, wa=True, c=True)
-
-        data_bed = [(window.chrom, window.start, window.stop, 0, bigwig_files, np.append(meta, np.array([cpg.count, cds.count, intron.count, promoter.count, utr5.count, utr3.count], dtype=bool)))
-                    for window, cpg, cds, intron, promoter, utr5, utr3 in 
-                    itertools.izip(bed_filtered, peaks_cpg_bedgraph,peaks_cds_bedgraph,peaks_intron_bedgraph,peaks_promoter_bedgraph,peaks_utr5_bedgraph,peaks_utr3_bedgraph)]
-    else:
-        data_bed = [(window.chrom, window.start, window.stop, shift, bigwig_files, meta)
-                    for window in bed_filtered]
-    #from data_iter import DataIterator
-    from data_iter_deepATAC import DataIterator
-    bigwig_rc_order = get_bigwig_rc_order(bigwig_names)
-    datagen_bed = DataIterator(data_bed, genome, 100, L, bigwig_rc_order, shuffle=False)
-    return bigwig_names, meta_names, datagen_bed, nonblacklist_bools
 
 def load_bed_data_sc(genome, positive_windows, use_meta, use_gencode, input_dir, is_sorted, big_wig_list, num_pos, chrom=None):
     bed_filtered = positive_windows
