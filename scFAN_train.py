@@ -4,10 +4,10 @@ Script for training model.
 python train.py -i data/GM12878 -k 128 -r 64 -d 256 -e 5 -oc mul
 Use `train.py -h` to see an auto-generated description of advanced options.
 """
-#import utils_ATAC as utils## use for scFAN training
+#import utils_ATAC as utils
 #import utils_ATAC_k26 as utils
 #import utils_ATAC_add_freq as utils
-import utils
+import utils## use for scFAN training
 import numpy as np
 
 # Standard library imports
