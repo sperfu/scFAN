@@ -238,7 +238,7 @@ def main():
     else:
         #model = utils.make_model(num_tfs, num_bigwigs, num_motifs, num_recurrent, num_dense, dropout_rate)
         #model = utils.DeepSEA(num_tfs,num_recurrent,num_bigwigs)
-        model = utils.ATACPeak(num_tfs,num_recurrent,num_bigwigs)
+        model = utils.scFANet(num_tfs,num_recurrent,num_bigwigs)
 
     if motif:
         assert singleTask # This option only works with single-task training
