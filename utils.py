@@ -632,7 +632,7 @@ def scFANet(out,num_recurrent,num_bws):
     in_size = (1,1000,6)
     l2_lam = 5e-07
     l1_lam = 1e-08
-    if num_recurrent > 0:
+    if num_recurrent == 0:
         hidden_layers = [
             Conv2D(nkernels[0], kernel_size=(1,8), strides=(1,1), padding='same', input_shape=in_size, kernel_regularizer=regularizers.l2(l2_lam)),
             BatchNormalization(),
