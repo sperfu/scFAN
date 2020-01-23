@@ -489,7 +489,7 @@ def get_output(input_layer, hidden_layers):
 
 def scFANet(out,num_recurrent,num_bws):
     from keras.models import Sequential
-    from keras.layers import Flatten, Dense, Dropout, Merge
+    from keras.layers import Flatten, Dense, Dropout, merge
     from keras.layers import Reshape
     from keras.layers.core import Activation
     from keras.layers.normalization import BatchNormalization
