@@ -92,8 +92,8 @@ def make_argument_parser():
                         default=32,
                         help='Number of kernels in model (default: 32).')
     parser.add_argument('--recurrent', '-r', type=int, required=False,
-                        default=32,
-                        help='Number of LSTM units in model (default: 32). If set to 0, the BLSTM layer is simply removed. If negative, the BLSTM layer is replaced with a global max-pooling layer.')
+                        default=0,
+                        help='Number of LSTM units in model (default: 0). If set to 0, the BLSTM layer is simply removed. If negative, the BLSTM layer is replaced with a global max-pooling layer.')
     parser.add_argument('--dense', '-d', type=int, required=False,
                         default=128,
                         help='Number of dense units in model (default: 128).')
