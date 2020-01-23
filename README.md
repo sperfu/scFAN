@@ -9,11 +9,11 @@ Characterizing genome-wide binding profiles of transcription factor (TF) is esse
 
 # Prerequisites
 
--Python (2.7). Python 2.7.13 is recommended.
+-Python (2.7). Python 2.7.13 is recommended. we have also updated our codes for Python3.7, will upload in a separate subfolder, stay tuned. 
 
 -Numpy
 
--Keras(2.0.2)
+-Keras(2.0.2). For Python 3.7 version, it's Keras(2.3.1).
 
 -Scipy
 
