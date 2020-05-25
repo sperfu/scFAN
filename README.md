@@ -9,7 +9,7 @@ Characterizing genome-wide binding profiles of transcription factor (TF) is esse
 
 # Prerequisites
 
--Python (2.7). Python 2.7.13 is recommended. we have also updated our codes for Python3.7, will upload in a separate subfolder, stay tuned. 
+-Python (2.7). Python 2.7.13 is recommended. we have also updated our codes for Python3.7, will upload in a separate subfolder. 
 
 -Numpy
 
@@ -23,14 +23,15 @@ Characterizing genome-wide binding profiles of transcription factor (TF) is esse
 
 -[pyfasta](https://pypi.org/project/pyfasta/)
 
-# Data
-
-Bulk ATAC-seq data was collected from Greenleaf et at(https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE47753), Schimidt et al(https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE70482) and Liu et al(https://www.ahajournals.org/doi/full/10.1161/CIRCRESAHA.116.310456?url_ver=Z39.88-2003&rfr_id=ori%3Arid%3Acrossref.org&rfr_dat=cr_pub%3Dpubmed)
-
-Single cell ATAC-seq data was retrieved from buenrostro et al(https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE65360) and Corces et al(https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE74310) which is same as chromVAR.
-
-As for the three cell types related Chip-seq data, we gained GM12878 based Chip-seq data from ENCODE-DREAM Challenge dataset which used in FactorNet(https://www.sciencedirect.com/science/article/pii/S1046202318303293). We also retrieved the K562 and H1ESC Chip-seq data from Li's work(https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1642-2#Decs).We also got other feature data such as mapability data from FactorNet.
-
+# Data  
+## Bulk ATAC-seq data  
+Bulk ATAC-seq data was collected from [Greenleaf et at](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE47753), [Schimidt et al](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE70482) and [Liu et al](https://www.ahajournals.org/doi/full/10.1161/CIRCRESAHA.116.310456?url_ver=Z39.88-2003&rfr_id=ori%3Arid%3Acrossref.org&rfr_dat=cr_pub%3Dpubmed)
+## scATAC-seq data  
+As for Corces dataset, Single cell ATAC-seq data was retrieved from [Buenrostro 2015 et al](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE65360) and [Corces et al](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE74310). 
+As for PBMCs dataset from [Buenrostro_2018](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96772), it contains 2805 cells, the filtered 2034 cells can be downloaded from [here](https://www.dropbox.com/sh/8o8f0xu6cvr46sm/AAB6FMIDvHqnG6h7athgcm5-a/Buenrostro_2018.tar.gz?dl=0).
+## Chip-seq data  
+As for the three cell types related Chip-seq data, we gained GM12878 based Chip-seq data from ENCODE-DREAM Challenge dataset which used in [FactorNet](https://www.sciencedirect.com/science/article/pii/S1046202318303293). We also retrieved the K562 and H1ESC Chip-seq data from [Li's work](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1642-2#Decs).We also got other feature data such as mapability data from FactorNet.
+## other resources data
 Before training, you also need the copy of hg19 genome fasta data and put it into the resources folder. Because of the space limitation, the data is not included in the current folder. You can download it to your drive and unpress it in the following commands:  
  <pre><code>$ wget http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz 
 $ tar zxvf chromFa.tar.gz   
