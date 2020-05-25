@@ -15,9 +15,6 @@ import errno
 import argparse
 import pickle
 import pdb
-from sklearn.metrics import average_precision_score
-from sklearn.metrics import roc_auc_score, roc_curve
-from sklearn.metrics import precision_recall_curve
 from collections import Counter
 import ast
 import commands
