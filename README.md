@@ -46,12 +46,16 @@ $ cat chr*.fa > hg19.fa
 \-- `-e`: epoch times. eg. 5  
 \-- `-oc`: model save path. e.g. model_out  
 ## Prediction on single cells:
-<pre><code>$ python scFAN_predict.py -i Datafolder -moname motifname -oc modeldir
+<pre><code>$ python scFAN_predict.py -i Datafolder -scindir scATAC-seq_data_folder -moname motifname -pb True -oc modeldir
 </code></pre>
 * Parameters:  
-\-- `-i`: input single cell data folder. e.g. Data/GM12787/scATAC-seq/gz_files_BJ  
-\-- `-moname`: motif name. eg. BJ  
-\-- `-oc`: model saved path. e.g. model_out  
+\-- `-i`: input single cell data folder. e.g. /data2/fly/PBMCs/raw_data/gz_files/new_folder/LMPP  
+\-- `-scindir`: scATAC-seq data folder. e.g. /data2/fly/scFAN_data/new_folder_PBMC_agg
+\-- `-moname`: motif name. e.g. LMPP
+\-- `-pb`: whether process batch effect. default: True
+\-- `-oc`: model saved path. e.g. model_out
+* Example:
+\-- `python scFAN_predict.py -i /data2/fly/PBMCs/raw_data/gz_files/new_folder/LMPP -scindir /data2/fly/scFAN_data/new_folder_cisTopics_PBMC_agg -moname LMPP -pb True -oc multiTask_H1hESC_add_ATAC_moreTFs multiTask_GM12878_add_ATAC_moreTFs multiTask_K562_ATAC_more_chipdata`
 
 ## Acknowledgement
 We referenced some of the codes from our lab's previous work [FactorNet](https://www.sciencedirect.com/science/article/pii/S1046202318303293) (here is the link to its [codes](https://github.com/uci-cbcl/FactorNet)) in the data preprocessing part and data generating structure, so we would like to thank for Daniel Quang's work and contribution. 
