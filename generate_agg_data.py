@@ -2,7 +2,6 @@ import numpy as np
 import pdb
 import pandas as pd
 import commands
-import multiprocessing
 
 from scipy.stats import pearsonr,spearmanr,kendalltau
 
