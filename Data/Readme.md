@@ -43,7 +43,7 @@ $ cd gz_files_BJ
 because all the bed files and bigwig files are the same for each single cell. The only places you need to change are the link. All the single cell bigwig files provided here were aggregated version, I have uploaded all the files in the google drive, you can download from there.   
  
 
-Considering the file size in the repository. We uploaded all the files in google drive, you can get the data from [here](https://drive.google.com/drive/folders/1PD9GDQEsB-KZnLxPW_bbtBy7KILNdUAn?usp=sharing).  
+Considering the file size in the repository. We uploaded all the files in google drive, you can get the data from [here](https://drive.google.com/open?id=1R9V53HgpdrjYdFJ04nF_BxjaUfVI7LI1).  
 
 If you have any questions, please feel free to contact me.
 Email: laiyif@uci.edu or fulaiyi@gmail.com
