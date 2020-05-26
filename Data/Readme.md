@@ -22,7 +22,10 @@ $ ln -s ../wgEncodeDukeMapabilityUniqueness35bp.bigWig wgEncodeDukeMapabilityUni
 
 For each cell line, we trained a separate model, right now we collected three cell lines data due to the available open datasets: GM12878, K562 and H1ESC. So there are three subfolders in the Data folder.   
 
-Correspondingly, we also have three pre-trained models in the model folder. Due to the space limit, we also provide a link for you to download if you would like to use a pre-trained model. Specifically, wgEncodeDukeMapabilityUniqueness35bp.bigWig can be downloaded from [here](http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeMapability/)
+Correspondingly, we also have three pre-trained models in the model folder. Due to the space limit, we provide a link for you to download if you would like to use a pre-trained model. Specifically, wgEncodeDukeMapabilityUniqueness35bp.bigWig can be downloaded from [here](http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeMapability/) or from the data folder we provide in our cloud drive.  
+### Train on new dataset 
+Our pre-trained model is fully capable of training new TF binding related data. Users can download TF related Chip-seq data and run the bash script, then a new model that can be applied to new TFs is available to use.
+
 
 ## Prediction data
 In the prediction phase, we utilized over 2000 cells retrieved from public datasets, which is shown in the main Readme.md and in the paper. All the single cell data we retrieved covered about 21 subtypes, so we collect each subtype data in one folder and predict them once for all.  
