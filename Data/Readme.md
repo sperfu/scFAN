@@ -24,7 +24,7 @@ For each cell line, we trained a separate model, right now we collected three ce
 
 Correspondingly, we also have three pre-trained models in the model folder. Due to the space limit, we provide a link for you to download if you would like to use a pre-trained model. Specifically, wgEncodeDukeMapabilityUniqueness35bp.bigWig can be downloaded from [here](http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeMapability/) or from the data folder we provide in our cloud drive.  
 ### Train on new dataset 
-Our pre-trained model is fully capable of training new TF binding related data. Users can download TF related Chip-seq data and run the bash script add_new_TF.sh, then a new model that can be applied to new TFs is available to use. One example is shown in add_new_TF.sh, please refer to that.
+Our pre-trained model is fully capable of training new TF binding related data. Users can download TF related Chip-seq data and run the bash script add_new_TF.sh, then a new model that can be applied to new TFs is available to use. One example is shown in [add_new_TF.sh](https://github.com/sperfu/scFAN/blob/master/Data/add_new_TF.sh), please refer to that.
 
 
 ## Prediction data
