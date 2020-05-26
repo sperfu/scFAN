@@ -46,6 +46,11 @@ $ cat chr*.fa > hg19.fa
 \-- `-i`: input train data folder. e.g. Data/GM12787  
 \-- `-e`: epoch times. eg. 5  
 \-- `-oc`: model save path. e.g. model_out  
+### Training on newly added TF:
+Our model is capable of adopting other TF related Chip-seq data to train a new model on new TFs, details are in [Data folder](https://github.com/sperfu/scFAN/blob/master/Data).  
+
+## Aggregating single cells to smooth the scATAC-seq data:
+After retrieving scATAC-seq data from [here](https://drive.google.com/drive/folders/1R9V53HgpdrjYdFJ04nF_BxjaUfVI7LI1), users can perform aggregating procedure to smooth the scATAC-seq data by calculating the similarity between cells, and new bigwig files are stored in a new folder, see details in [generate_agg_data.py](https://github.com/sperfu/scFAN/blob/master/generate_agg_data.py).  (You need to change the directory in the script to your own before running the code).  
 ## Prediction on single cells:
 <pre><code>$ python scFAN_predict.py -i Datafolder -scindir scATAC-seq_data_folder -moname motifname -pb True -oc modeldir
 </code></pre>
