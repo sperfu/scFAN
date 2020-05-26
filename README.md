@@ -51,7 +51,7 @@ $ cat chr*.fa > hg19.fa
 </code></pre>
 * Parameters:  
 \-- `-i`: input single cell data folder. e.g. /data2/fly/PBMCs/raw_data/gz_files/new_folder/LMPP  
-\-- `-scindir`: scATAC-seq data folder. e.g. /data2/fly/scFAN_data/new_folder_PBMC_agg  
+\-- `-scindir`: scATAC-seq data folder. e.g. /data2/fly/scFAN_data/new_folder_PBMC_agg (if you want to use scATAC-seq without aggregation, just change this parameter to a new folder)   
 \-- `-moname`: motif name. e.g. LMPP  
 \-- `-pb`: whether process batch effect. default: True  
 \-- `-oc`: model saved path. e.g. model_out  
