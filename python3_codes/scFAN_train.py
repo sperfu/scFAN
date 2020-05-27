@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """
 Script for training model.
-python train.py -i data/GM12878 -k 128 -r 64 -d 256 -e 5 -oc mul
-Use `train.py -h` to see an auto-generated description of advanced options.
+python scFAN_train.py -i data/GM12878 -e 5 -oc mul
+Use `scFAN_train.py -h` to see an auto-generated description of advanced options.
 """
 #import utils_ATAC as utils
 #import utils_ATAC_k26 as utils
@@ -177,12 +177,12 @@ def main():
     except OSError as exc:
         if exc.errno == errno.EEXIST:
             if not clobber:
-                print >> sys.stderr, ('output directory (%s) already exists '
-                                      'but you specified not to clobber it') % output_dir
+                print(sys.stderr, ('output directory (%s) already exists '
+                                      'but you specified not to clobber it') % output_dir)
                 sys.exit(1)
             else:
-                print >> sys.stderr, ('output directory (%s) already exists '
-                                      'so it will be clobbered') % output_dir
+                print(sys.stderr, ('output directory (%s) already exists '
+                                      'so it will be clobbered') % output_dir)
 
     print('Loading genome')
     genome = utils.load_genome()
