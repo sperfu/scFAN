@@ -6,5 +6,4 @@ When you enter each subfolder, just run the command:
 <pre><code>$ Rscript draw_tsne.R 
 </code></pre>  
 Then you will get Tsne plot of clustering these cell. We loaded the precalculated Tsne results to let you see the result in
-our paper, you could also perform a new calculation by uncommenting some codes in the draw_tsne.R script. But due to the initialization
-difference in the tsne function, the final plot may present a little different. 
+our paper, you could also perform a new calculation by setting load_tsne_result to FALSE in the draw_tsne.R script. But due to the initialization difference in the tsne function, the final plot may present a little different. 
