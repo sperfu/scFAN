@@ -20,7 +20,7 @@ H1ESC:
 $ ln -s ../wgEncodeDukeMapabilityUniqueness35bp.bigWig wgEncodeDukeMapabilityUniqueness35bp.bigWig
 </code></pre>  
 
-For each cell line, we trained a separate model, right now we collected three cell lines data due to the available open datasets: GM12878, K562 and H1ESC. So there are three subfolders in the Data folder.   
+For each cell line, we trained a separate model, right now we collected three cell lines data due to the available open datasets: GM12878, K562 and H1ESC. So there are three subfolders in the Data folder. We also provide full TF binding prediction result on three cell lines in these three subfolder.   
 
 Correspondingly, we also have three pre-trained models in the model folder. Due to the space limit, we provide a link for you to download if you would like to use a pre-trained model. Specifically, wgEncodeDukeMapabilityUniqueness35bp.bigWig can be downloaded from [here](http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeMapability/) or from the data folder we provide in our [cloud drive](https://drive.google.com/open?id=1R9V53HgpdrjYdFJ04nF_BxjaUfVI7LI1).  
 ### Train on new dataset 
