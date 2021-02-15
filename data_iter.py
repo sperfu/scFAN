@@ -86,12 +86,14 @@ class DataIterator(Iterator):
         else:
             batch_X_bigwig_rc = batch_X_bigwig[:, ::-1, self.bigwig_rc_order]
         #batch_X_bigwig_rc = batch_X_bigwig[:, ::-1, self.bigwig_rc_order]
-        batch_X_fwd = np.concatenate([batch_X_seq, batch_X_bigwig], axis=-1)
-        batch_X_rev = np.concatenate([batch_X_seq_rc, batch_X_bigwig_rc], axis=-1)
+        batch_X_fwd = np.concatenate([batch_X_seq, batch_X_bigwig,batch_X_bigwig_rc], axis=-1)
+        batch_X_rev = np.concatenate([batch_X_seq_rc, batch_X_bigwig_rc,batch_X_bigwig], axis=-1)
+        batch_X_fwd = np.expand_dims(batch_X_fwd,axis=1)
+        batch_X_rev = np.expand_dims(batch_X_rev,axis=1)
         if self.num_meta:
             batch_x = [batch_X_fwd, batch_X_rev, batch_X_meta]
         else:
-            batch_x = [batch_X_fwd, batch_X_rev]
+            batch_x = batch_X_fwd
         if self.labeled:
             return batch_x, batch_y
         return batch_x
