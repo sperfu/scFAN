@@ -63,9 +63,9 @@ After retrieving scATAC-seq data from [here](https://drive.google.com/drive/fold
 <pre><code>$ python scFAN_predict.py -i Datafolder -scindir scATAC-seq_data_folder -moname motifname -pb True -oc modeldir
 </code></pre>
 * Parameters:  
-\-- `-i`: input single cell data folder. e.g. /data2/fly/PBMCs/raw_data/gz_files/new_folder/LMPP  
-\-- `-scindir`: scATAC-seq data folder. e.g. /data2/fly/scFAN_data/new_folder_PBMC_agg (if you want to use scATAC-seq without aggregation, just change this parameter to the raw scATAC-seq folder)   
-\-- `-moname`: motif name. e.g. LMPP  
+\-- `-i`: input single cell data folder, which contains peaks and other resources. e.g. /data2/fly/PBMCs/raw_data/gz_files/new_folder/LMPP  (These can be retrieved from our [google drive](https://drive.google.com/drive/folders/1R9V53HgpdrjYdFJ04nF_BxjaUfVI7LI1),under single cell data subfolder, named as celltype.tar.gz, e.g. LMPP.tar.gz etc.)
+\-- `-scindir`: scATAC-seq data folder, which contains all the processed bigwig files. e.g. /data2/fly/scFAN_data/new_folder_PBMC_agg (if you want to use scATAC-seq without aggregation, just change this parameter to the raw scATAC-seq folder) (These can be retrieved from our [google drive](https://drive.google.com/drive/folders/1R9V53HgpdrjYdFJ04nF_BxjaUfVI7LI1),under single cell data subfolder, named as PBMC_scATAC_bigwig.tar.gz & Corces_scATAC_bigwig.tar.gz, note that these two files are quite large.)  
+\-- `-moname`: single cell type name. e.g. LMPP  
 \-- `-pb`: whether process batch effect. default: True  
 \-- `-oc`: model saved path. e.g. model_out  
 * Example:  
