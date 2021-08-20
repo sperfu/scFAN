@@ -21,6 +21,8 @@ Characterizing genome-wide binding profiles of transcription factor (TF) is esse
 
 -[pyfasta](https://pypi.org/project/pyfasta/)
 
+-[ucsc-bigwigmerge](https://anaconda.org/bioconda/ucsc-bigwigmerge)
+
 # Data  
 ## Bulk ATAC-seq data  
 Bulk ATAC-seq data was collected from [Greenleaf et at](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE47753), [Schimidt et al](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE70482) and [Liu et al](https://www.ahajournals.org/doi/full/10.1161/CIRCRESAHA.116.310456?url_ver=Z39.88-2003&rfr_id=ori%3Arid%3Acrossref.org&rfr_dat=cr_pub%3Dpubmed)
@@ -68,6 +70,15 @@ After retrieving scATAC-seq data from [here](https://drive.google.com/drive/fold
 \-- `-oc`: model saved path. e.g. model_out  
 * Example:  
  `python scFAN_predict.py -i /data2/fly/PBMCs/raw_data/gz_files/new_folder/LMPP -scindir /data2/fly/scFAN_data/new_folder_cisTopics_PBMC_agg -moname LMPP -pb True -oc multiTask_H1hESC_add_ATAC_moreTFs multiTask_GM12878_add_ATAC_moreTFs multiTask_K562_ATAC_more_chipdata`
+
+## Some path information
+<strong><em>Please</em></strong> be aware that some of the path in the codes may need to altered accorrding to user's own path. I listed all the paths that need to alter in the following:
+
+* change this path in [utils.py](https://github.com/sperfu/scFAN/blob/4efa63381702676e44e9582eed5903fda428ec20/utils.py#L14) (as well as py3 version [utils.py](https://github.com/sperfu/scFAN/blob/4efa63381702676e44e9582eed5903fda428ec20/python3_codes/utils.py#L14)) to your own temp folder to allow pybedtool to create some temp files.
+* In generate_agg_data.py, [This line](https://github.com/sperfu/scFAN/blob/4efa63381702676e44e9582eed5903fda428ec20/generate_agg_data.py#L56) (as well as py3 version [line](https://github.com/sperfu/scFAN/blob/4efa63381702676e44e9582eed5903fda428ec20/python3_codes/generate_agg_data_py3.py#L56)) contains the precalculated latent embeddings from Cistopic(using latent dim number of 20). We use this embedding to precalculate cell-cell similarities as mentioned in our paper. Please refer to [Cistopic](https://github.com/aertslab/cisTopic/tree/76ba23dedb60042bf9610537a0727100c2d4c486) git respository to calculate the embedding matrix.
+* In generate_agg_data.py, [This line](https://github.com/sperfu/scFAN/blob/4efa63381702676e44e9582eed5903fda428ec20/generate_agg_data.py#L59) (as well as py3 version [line](https://github.com/sperfu/scFAN/blob/4efa63381702676e44e9582eed5903fda428ec20/python3_codes/generate_agg_data_py3.py#L59)) contains all the single cell names, you can change this path to your own, all the cell names (named: all_cell_name_2210.txt & all_cell_name_no_dir) are stored in our [google drive](https://drive.google.com/drive/folders/1R9V53HgpdrjYdFJ04nF_BxjaUfVI7LI1), please download them from two single cell data subfolders(Corces dataset & PBMCs dataset). As for the [line 26 & 32](https://github.com/sperfu/scFAN/blob/4efa63381702676e44e9582eed5903fda428ec20/generate_agg_data.py#L26) (py3 version [line 26 & 32](https://github.com/sperfu/scFAN/blob/4efa63381702676e44e9582eed5903fda428ec20/python3_codes/generate_agg_data_py3.py#L26)), you also need to change to your own path which contains all the single cell bigwig(bw) file(These can also be downloaded through google drive from single cell data subfolders mentioned above, you might need to unzip them into your own folder after downloading).
+
+
 
 ## Citation
 If you use our tool, please cite our work: Fu L, Zhang L, Dollinger E, Peng Q, Nie Q, Xie X. [Predicting transcription factor binding in single cells through deep learning](https://advances.sciencemag.org/content/6/51/eaba9031). Sci Adv. 2020 Dec 18;6(51):eaba9031. doi: 10.1126/sciadv.aba9031. PMID: 33355120.
