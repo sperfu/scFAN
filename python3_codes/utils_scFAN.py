@@ -335,7 +335,7 @@ def get_chip_beds_multiple(input_dir,process_batch):
                 print("Error!!!")
     else:
         print('No need process batch,continue...')
-    print('Sorting BED files)'
+    print('Sorting BED files')
     chip_beds = [chip_bed.sort() for chip_bed in chip_beds]
     merged_chip_bed_list = []
     for item in chip_beds:
