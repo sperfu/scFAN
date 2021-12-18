@@ -7,21 +7,47 @@ Characterizing genome-wide binding profiles of transcription factor (TF) is esse
 
 # Prerequisites
 
--Python (2.7). Python 2.7.13 is recommended. we have also updated our codes for Python3.7, will upload in a separate subfolder. 
+-Python (2.7). Python 2.7.13 is recommended. we have also updated our codes for Python3.6, will upload in a separate subfolder. 
 
 -Numpy
 
--Keras(2.0.2). For Python 3.7 version, it's Keras(2.3.1).
+-Keras(2.0.2). For Python 3.6 version, it's Keras(2.0.6).
+
+-theano(1.0.5)
 
 -Scipy
 
 -[collections](https://docs.python.org/2.7/library/collections.html#)
 
--[pybedtools](https://daler.github.io/pybedtools/main.html)
+-[pybedtools](https://daler.github.io/pybedtools/main.html) (0.7.10)
 
 -[pyfasta](https://pypi.org/project/pyfasta/)
 
 -[ucsc-bigwigmerge](https://anaconda.org/bioconda/ucsc-bigwigmerge)
+
+# Conda installation  
+
+For users' convenience, we have also create conda env for users to clone and use.  
+## Setup
+
+Clone the repository.
+
+```
+git clone https://github.com/sperfu/scFAN.git
+```
+
+Navigate to the root of this repo and setup the conda environment.
+
+```
+conda env create -f scFAN.yml
+```
+
+Activate conda environment.
+
+```
+conda activate scFAN
+```
+
 
 # Data  
 ## Bulk ATAC-seq data  
