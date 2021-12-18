@@ -13,9 +13,11 @@ Characterizing genome-wide binding profiles of transcription factor (TF) is esse
 
 -Keras(2.0.2). For Python 3.6 version, it's Keras(2.0.6).
 
--theano(1.0.5)
+-theano(1.0.4). For Python 3.6 theano(1.0.5). 
 
 -Scipy
+
+-h5py(2.7.0). For Python 3.6 h5py(2.10.0). 
 
 -[collections](https://docs.python.org/2.7/library/collections.html#)
 
