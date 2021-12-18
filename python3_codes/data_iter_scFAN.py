@@ -63,8 +63,8 @@ class DataIterator(Iterator):
                 start += s
                 stop += s
             med = (start + stop) / 2
-            start = med - self.seqlen / 2
-            stop = med + self.seqlen / 2
+            start = int(med - self.seqlen / 2)
+            stop = int(med + self.seqlen / 2)
             batch_X_seq[i] = self.genome[chrom][start:stop]
             if self.num_meta:
                 batch_X_meta[i] = meta
