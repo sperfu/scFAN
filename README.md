@@ -97,7 +97,7 @@ After retrieving scATAC-seq data from [here](https://drive.google.com/drive/fold
 \-- `-pb`: whether process batch effect. default: True  
 \-- `-oc`: model saved path. e.g. model_out  
 * Example:  
- `python scFAN_predict.py -i /data2/fly/PBMCs/raw_data/gz_files/new_folder/LMPP -scindir /data2/fly/scFAN_data/new_folder_cisTopics_PBMC_agg -moname LMPP -pb True -oc multiTask_H1hESC_add_ATAC_moreTFs multiTask_GM12878_add_ATAC_moreTFs multiTask_K562_ATAC_more_chipdata`
+ `python scFAN_predict.py -i /data2/fly/PBMCs/raw_data/gz_files/new_folder/LMPP -scindir /data2/fly/scFAN_data/new_folder_cisTopics_PBMC_agg -moname LMPP -pb True -oc ../model/H1ESC ../model/GM12878 ../model/K562`
 
 ## Some path information
 <strong><em>Please</em></strong> be aware that some of the path in the codes may need to altered accorrding to user's own path. I listed all the paths that need to alter in the following:
