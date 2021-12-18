@@ -25,7 +25,7 @@ Characterizing genome-wide binding profiles of transcription factor (TF) is esse
 
 -[ucsc-bigwigmerge](https://anaconda.org/bioconda/ucsc-bigwigmerge)
 
-# Conda installation  
+# Conda installation(python3 version)  
 
 For users' convenience, we have also create conda env for users to clone and use.  
 ## Setup
