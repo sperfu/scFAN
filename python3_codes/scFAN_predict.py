@@ -29,8 +29,8 @@ def test(model_dir,datagen_test):
     for model_dir_item in model_dir:
         model_tfs, model_bigwig_names, features, model = utils.load_model(model_dir_item)
         #pdb.set_trace()
-        model_predicts = model.predict_generator(datagen_test, val_samples=1+len(datagen_test)/100, pickle_safe=True,verbose=1)  ## old_version
-    #model_predicts = model.predict_generator(datagen_test, steps=1+len(datagen_test)/100, use_multiprocessing=True,verbose=1)
+        #model_predicts = model.predict_generator(datagen_test, val_samples=1+len(datagen_test)/100, pickle_safe=True,verbose=1)  ## old_version
+        model_predicts = model.predict_generator(datagen_test, steps=1+len(datagen_test)/100, use_multiprocessing=False,verbose=1)
         model_tfs_list.append(model_tfs)
         model_predicts_list.append(model_predicts)
     return model_predicts_list,model_tfs_list
