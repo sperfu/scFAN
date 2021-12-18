@@ -271,7 +271,7 @@ def negative_shuffle_wrapper(args, include_bed, num_copies, noOverlapping):
 def get_onehot_chrom(chrom): 
     fasta = pyfasta.Fasta(genome_fasta_file)
     chr_str = str(fasta[chrom]).upper()
-    d = np.array(['A','C','G','T'])
+    d = np.array(['A','C','G','T'], dtype='|S1')
     y = np.fromstring(chr_str, dtype='|S1')[:, np.newaxis] == d
     return y
 
