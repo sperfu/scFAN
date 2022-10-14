@@ -83,7 +83,7 @@ def make_features_multiTask(positive_windows, y_positive, nonnegative_regions_be
     
     import pdb
     print('Splitting positive windows into training, validation, and testing sets')
-    for positive_window, target_array in itertools.izip(positive_windows, y_positive):
+    for positive_window, target_array in itertools.zip(positive_windows, y_positive):
         if len(positive_window.chrom) > 8:
             pdb.set_trace()
         chrom = positive_window.chrom
@@ -203,7 +203,7 @@ def extract_data_from_bed(args, shift, label, gencode):
         peaks_utr5_bedgraph = peaks.intersect(utr5_bed, wa=True, c=True)
         peaks_utr3_bedgraph = peaks.intersect(utr3_bed, wa=True, c=True)
 
-        for cpg, cds, intron, promoter, utr5, utr3 in itertools.izip(peaks_cpg_bedgraph,peaks_cds_bedgraph,peaks_intron_bedgraph,peaks_promoter_bedgraph,peaks_utr5_bedgraph,peaks_utr3_bedgraph):
+        for cpg, cds, intron, promoter, utr5, utr3 in itertools.zip(peaks_cpg_bedgraph,peaks_cds_bedgraph,peaks_intron_bedgraph,peaks_promoter_bedgraph,peaks_utr5_bedgraph,peaks_utr3_bedgraph):
             chrom = cpg.chrom
             peak_start = cpg.start
             peak_stop = cpg.stop
@@ -707,7 +707,7 @@ def load_bed_data_sc(genome, positive_windows, use_meta, use_gencode, input_dir,
 
         data_bed = [(window.chrom, window.start, window.stop, 0, bigwig_files, np.append(meta, np.array([cpg.count, cds.count, intron.count, promoter.count, utr5.count, utr3.count], dtype=bool)))
                     for window, cpg, cds, intron, promoter, utr5, utr3 in
-                    itertools.izip(bed_filtered, peaks_cpg_bedgraph,peaks_cds_bedgraph,peaks_intron_bedgraph,peaks_promoter_bedgraph,peaks_utr5_bedgraph,peaks_utr3_bedgraph)]
+                    itertools.zip(bed_filtered, peaks_cpg_bedgraph,peaks_cds_bedgraph,peaks_intron_bedgraph,peaks_promoter_bedgraph,peaks_utr5_bedgraph,peaks_utr3_bedgraph)]
     else:
         data_bed = [(window.chrom, window.start, window.stop, shift, bigwig_files, meta)
                     for window in bed_filtered]
