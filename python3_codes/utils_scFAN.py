@@ -152,7 +152,7 @@ def make_features_multiTask(positive_windows, y_positive, nonnegative_regions_be
 
     print('Shuffling training data')
     data_train = []
-    for i in xrange(epochs):
+    for i in range(epochs):
         epoch_data = []
         epoch_data.extend(positive_data_train)
         epoch_data.extend(negative_data_train[i*num_positive_train_windows:(i+1)*num_positive_train_windows])
