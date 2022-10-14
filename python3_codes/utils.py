@@ -151,7 +151,7 @@ def make_features_multiTask(positive_windows, y_positive, nonnegative_regions_be
 
     print('Shuffling training data')
     data_train = []
-    for i in xrange(epochs):
+    for i in range(epochs):
         epoch_data = []
         epoch_data.extend(positive_data_train)
         epoch_data.extend(negative_data_train[i*num_positive_train_windows:(i+1)*num_positive_train_windows])
@@ -346,7 +346,7 @@ def make_features_singleTask(chip_bed_list, nonnegative_regions_bed_list, bigwig
     num_negatives_per_epoch = negatives*len(positive_data_train)
     np.random.shuffle(negative_data_train)
     data_train = []
-    for i in xrange(epochs):
+    for i in range(epochs):
         epoch_data = []
         epoch_data.extend(positive_data_train)
         epoch_data.extend(negative_data_train[i*num_negatives_per_epoch:(i+1)*num_negatives_per_epoch])
